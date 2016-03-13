@@ -12,7 +12,7 @@
               ))
 
 (def languages [
-  (js-obj "name" "C,"   "year" 1972)
+  (js-obj "name" "C"   "year" 1972)
   (js-obj "name" "C#" "year" 2000)
   (js-obj "name" "C++" "year" 1983)
   (js-obj "name" "Clojure" "year" 2007)
@@ -38,9 +38,7 @@
   (.-name suggestion))
 
 (defn  renderSuggestion [suggestion]
-  (.log js/console "render suggestion: ")
-  (.log js/console suggestion)
-  (r/reactify-component
+  (r/as-element
    [:span (.-name suggestion)]))
 
 
