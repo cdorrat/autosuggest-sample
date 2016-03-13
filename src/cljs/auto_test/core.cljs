@@ -1,39 +1,32 @@
 (ns auto-test.core
     (:require [reagent.core :as r :refer [atom]]
-              ;;              [reagent.session :as session]
               [secretary.core :as secretary :include-macros true]
               [accountant.core :as accountant]
               cljsjs.react-autosuggest
-              ;; [cljsjs.react :as react]
-              ;; [cljsjs.react.dom :as react-dom]
-              ;
-              
-              [clojure.string :as str]
-              ))
+              [clojure.string :as str]))
 
 
-(def languages [
-  (js-obj "name" "C"   "year" 1972)
-  (js-obj "name" "C#" "year" 2000)
-  (js-obj "name" "C++" "year" 1983)
-  (js-obj "name" "Clojure" "year" 2007)
-  (js-obj "name" "Elm" "year" 2012)
-  (js-obj "name" "Go" "year" 2009)
-  (js-obj "name" "Haskell" "year" 1990)
-  (js-obj "name" "Java" "year" 1995)
-  (js-obj "name" "Javascript" "year" 1995)
-  (js-obj "name" "Perl" "year" 1987)
-  (js-obj "name" "PHP" "year" 1995)
-  (js-obj "name" "Python" "year" 1991)
-  (js-obj "name" "Ruby" "year" 1995)
-  (js-obj "name" "Scala" "year" 2003)])
+(def languages [{:name "C"   :year 1972}
+                {:name "C#" :year 2000}
+                {:name "C++" :year 1983}
+                {:name "Clojure" :year 2007}
+                {:name "Elm" :year 2012}
+                {:name "Go" :year 2009}
+                {:name "Haskell" :year 1990}
+                {:name "Java" :year 1995}
+                {:name "Javascript" :year 1995}
+                {:name "Perl" :year 1987}
+                {:name "PHP" :year 1995}
+                {:name "Python" :year 1991}
+                {:name "Ruby" :year 1995}
+                {:name "Scala" :year 2003}])
 
 (defn getSuggestions [val]
   (let [escapedValue (if (string? val) (str/trim val) "")]
     (if (empty? escapedValue)
-      #js []
+      []
       (let [rpatt (re-pattern (str "(?i)^" val ".*"))]
-        (clj->js (filter (comp #(re-matches rpatt %) #(.-name %)) languages))))))
+       (into [] (filter (comp #(re-matches rpatt %) :name) languages))))))
 
 (defn getSuggestionValue [suggestion]
   (.-name suggestion))
@@ -42,38 +35,28 @@
   (r/as-element
    [:span (.-name suggestion)]))
 
-
 (def Autosuggest (r/adapt-react-class js/Autosuggest))
-
 
 (defn auto-suggest [id]
   (let [suggestions (r/atom (getSuggestions ""))
         as-val (r/atom "")
         update-suggestions (fn [arg]
                              (let [new-sugg (getSuggestions (.-value arg))]
-                               ;;                               (.log js/console arg)
                                (reset! suggestions new-sugg)
                                nil))
         update-state-val (fn [evt new-val method]                           
-                           (let [nv (.. evt -target -value)]
-                             (.log js/console new-val)
-                             (reset! as-val (.-newValue new-val))
-                             nil))]
-    (r/create-class
-     {:display-name "autosuggest-wrapper"
-      :getInitialState (constantly #js {:value "" :suggestions (getSuggestions "")})
-      :childContextTypes #js {"store" js/React.PropTypes.object}
-;;      :getChildContext (fn [] #js {"store" (js/Redux.createStore  store-reducer  {})})
-      :reagent-render (fn [id]
-                        [Autosuggest {:id id                  
-                                      :suggestions @suggestions
-                                      :onSuggestionsUpdateRequested update-suggestions
-                                      :getSuggestionValue getSuggestionValue
-                                      :renderSuggestion renderSuggestion
-                                      :inputProps {:placeholder "Type 'c'"
-                                                   :value @as-val
-                                                   :onChange update-state-val} }])
-      })))
+                           (reset! as-val (.-newValue new-val))
+                           nil)]
+    (fn [id]
+      [Autosuggest {:id id                  
+                    :suggestions @suggestions
+                    :onSuggestionsUpdateRequested update-suggestions
+                    :getSuggestionValue getSuggestionValue
+                    :renderSuggestion renderSuggestion
+                    :inputProps {:placeholder "Type 'c'"
+                                 :value @as-val
+                                 :onChange update-state-val} }])
+    ))
 
 
 ;; -------------------------

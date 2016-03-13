@@ -6,9 +6,7 @@
 
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [ring-server "0.4.0"]
-                 ;; [cljsjs/react "0.14.3-0"]
-                 ;; [cljsjs/react-dom "0.14.3-1"]
-                 [reagent "0.6.0-alpha"] ;;                   :exclusions [org.clojure/tools.reader]
+                 [reagent "0.6.0-alpha"]
                  [cljsjs/react-autosuggest "3.5.1-1"]
                  [reagent-forms "0.5.21"]
                  ;; [reagent-utils "0.1.7"]
