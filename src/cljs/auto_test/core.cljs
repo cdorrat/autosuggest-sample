@@ -11,6 +11,7 @@
               [clojure.string :as str]
               ))
 
+
 (def languages [
   (js-obj "name" "C"   "year" 1972)
   (js-obj "name" "C#" "year" 2000)
@@ -54,8 +55,9 @@
                                (reset! suggestions new-sugg)
                                nil))
         update-state-val (fn [evt new-val method]                           
-                           (let [nv (.. evt -target -value)]                             
-                             (reset! as-val nv)
+                           (let [nv (.. evt -target -value)]
+                             (.log js/console new-val)
+                             (reset! as-val (.-newValue new-val))
                              nil))]
     (r/create-class
      {:display-name "autosuggest-wrapper"
@@ -77,7 +79,7 @@
 ;; -------------------------
 ;; Views
 
-(def session (atom {}))
+(defonce session (atom {}))
 
 (defn home-page []
   [:div [:h2 "Welcome to auto-test"]
