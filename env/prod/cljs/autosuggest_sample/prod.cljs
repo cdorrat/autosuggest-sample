@@ -1,5 +1,5 @@
-(ns auto-test.prod
-  (:require [auto-test.core :as core]))
+(ns autosuggest-sample.prod
+  (:require [autosuggest-sample.core :as core]))
 
 ;;ignore println statements in prod
 (set! *print-fn* (fn [& _]))

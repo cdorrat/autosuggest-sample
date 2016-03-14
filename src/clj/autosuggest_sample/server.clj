@@ -1,5 +1,5 @@
-(ns auto-test.server
-  (:require [auto-test.handler :refer [app]]
+(ns autosuggest-sample.server
+  (:require [autosuggest-sample.handler :refer [app]]
             [environ.core :refer [env]]
             [ring.adapter.jetty :refer [run-jetty]])
   (:gen-class))

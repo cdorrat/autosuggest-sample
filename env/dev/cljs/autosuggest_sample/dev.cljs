@@ -1,5 +1,5 @@
-(ns ^:figwheel-no-load auto-test.dev
-  (:require [auto-test.core :as core]
+(ns ^:figwheel-no-load autosuggest-sample.dev
+  (:require [autosuggest-sample.core :as core]
             [figwheel.client :as figwheel :include-macros true]))
 
 (enable-console-print!)

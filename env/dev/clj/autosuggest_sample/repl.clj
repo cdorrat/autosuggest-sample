@@ -1,5 +1,5 @@
-(ns auto-test.repl
-  (:use auto-test.handler
+(ns autosuggest-sample.repl
+  (:use autosuggest-sample.handler
         ring.server.standalone
         [ring.middleware file-info file]))
 

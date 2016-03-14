@@ -1,40 +1,35 @@
-(defproject auto-test "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+(defproject autosuggest-sample "0.1.0-SNAPSHOT"
+  :description "Sample reagent project that uses the react-autosuggest control"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [ring-server "0.4.0"]
-                 [reagent "0.6.0-alpha"]
-                 [cljsjs/react-autosuggest "3.5.1-1"]
-                 [reagent-forms "0.5.21"]
-                 ;; [reagent-utils "0.1.7"]
                  [ring "1.4.0"]
                  [ring/ring-defaults "0.1.5"]
                  [compojure "1.5.0"]
                  [hiccup "1.0.5"]
                  [environ "1.0.2"]
+                 
                  [org.clojure/clojurescript "1.7.228"
                   :scope "provided"]
-                 [secretary "1.2.3"]
-                 [venantius/accountant "0.1.7"
-                  :exclusions [org.clojure/tools.reader]]
-                 ]
+                 [reagent "0.6.0-alpha"]
+                 [cljsjs/react-autosuggest "3.5.1-0"]]
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.1"]
             [lein-asset-minifier "0.2.7"
              :exclusions [org.clojure/clojure]]]
 
-  :ring {:handler auto-test.handler/app
-         :uberwar-name "auto-test.war"}
+  :ring {:handler autosuggest-sample.handler/app
+         :uberwar-name "autosuggest-sample.war"}
 
   :min-lein-version "2.5.0"
 
-  :uberjar-name "auto-test.jar"
+  :uberjar-name "autosuggest-sample.jar"
 
-  :main auto-test.server
+  :main autosuggest-sample.server
 
   :clean-targets ^{:protect false} [:target-path
                                     [:cljsbuild :builds :app :compiler :output-dir]
@@ -55,7 +50,7 @@
                                         :pretty-print  true}}}}
 
 
-  :profiles {:dev {:repl-options {:init-ns auto-test.repl}
+  :profiles {:dev {:repl-options {:init-ns autosuggest-sample.repl}
 
                    :dependencies [[ring/ring-mock "0.3.0"]
                                   [ring/ring-devel "1.4.0"]
@@ -98,12 +93,12 @@
                                                  "refactor-nrepl.middleware/wrap-refactor"
                                                  "cemerick.piggieback/wrap-cljs-repl"]
                               :css-dirs ["resources/public/css"]
-                              :ring-handler auto-test.handler/app}
+                              :ring-handler autosuggest-sample.handler/app}
 
                    :env {:dev true}
 
                    :cljsbuild {:builds {:app {:source-paths ["env/dev/cljs"]
-                                              :compiler {:main "auto-test.dev"
+                                              :compiler {:main "autosuggest-sample.dev"
                                                          :source-map true}}
 
 

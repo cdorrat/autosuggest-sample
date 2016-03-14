@@ -1,4 +1,4 @@
-(ns auto-test.util)
+(ns autosuggest-sample.util)
 
 (defn foo-cljc [x]
   "I don't do a whole lot."

@@ -1,10 +1,7 @@
-(ns auto-test.core
+(ns autosuggest-sample.core
     (:require [reagent.core :as r :refer [atom]]
-              [secretary.core :as secretary :include-macros true]
-              [accountant.core :as accountant]
               cljsjs.react-autosuggest
               [clojure.string :as str]))
-
 
 (def languages [{:name "C"   :year 1972}
                 {:name "C#" :year 2000}
@@ -26,10 +23,10 @@
     (re-pattern (str "(?i)^" escaped ".*"))))
 
 (defn getSuggestions [val]
-  (let [escapedValue (if (string? val) (str/trim val) "")]
-    (if (empty? escapedValue)
+  (let [trimmed-val (if (string? val) (str/trim val) "")]
+    (if (empty? trimmed-val)
       []
-      (into [] (filter (comp #(re-matches  (str->regex val) %) :name) languages)))))
+      (into [] (filter (comp #(re-matches  (str->regex trimmed-val) %) :name) languages)))))
 
 (defn getSuggestionValue [suggestion]
   (.-name suggestion))
@@ -64,42 +61,13 @@
 ;; -------------------------
 ;; Views
 
-(defonce session (atom {}))
-
 (defn home-page []
-  [:div [:h2 "Welcome to auto-test"]
+  [:div [:h3 "Calling react-autosuggest from clojure"]
    [:div [auto-suggest "my-auto"]]
-   [:div [:a {:href "/about"} "go to about page"]]])
-
-(defn about-page []
-  [:div [:h2 "About auto-test"]
-   [:div [:a {:href "/"} "go to the home page"]]])
-
-(defn current-page []
-  [:div [(:current-page @session)]])
-
-;; -------------------------
-;; Routes
-
-(secretary/defroute "/" []
-  (swap! session assoc  :current-page #'home-page))
-
-(secretary/defroute "/about" []
-  (swap! session assoc :current-page #'about-page))
-
-;; -------------------------
-;; Initialize app
+   [:div [:a {:href "http://react-autosuggest.js.org/"} "go to controls home page"]]])
 
 (defn mount-root []
-  (r/render [current-page] (.getElementById js/document "app")))
+  (r/render [home-page] (.getElementById js/document "app")))
 
 (defn init! []
-  (accountant/configure-navigation!
-    {:nav-handler
-     (fn [path]
-       (secretary/dispatch! path))
-     :path-exists?
-     (fn [path]
-       (secretary/locate-route path))})
-  (accountant/dispatch-current!)
   (mount-root))
