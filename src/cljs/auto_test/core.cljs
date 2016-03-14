@@ -21,12 +21,15 @@
                 {:name "Ruby" :year 1995}
                 {:name "Scala" :year 2003}])
 
+(defn str->regex [a-str]
+  (let [escaped (str/replace a-str #"[\+\.\?\[\]\(\)\^\$]" (partial str "\\"))]
+    (re-pattern (str "(?i)^" escaped ".*"))))
+
 (defn getSuggestions [val]
   (let [escapedValue (if (string? val) (str/trim val) "")]
     (if (empty? escapedValue)
       []
-      (let [rpatt (re-pattern (str "(?i)^" val ".*"))]
-       (into [] (filter (comp #(re-matches rpatt %) :name) languages))))))
+      (into [] (filter (comp #(re-matches  (str->regex val) %) :name) languages)))))
 
 (defn getSuggestionValue [suggestion]
   (.-name suggestion))
@@ -55,8 +58,7 @@
                     :renderSuggestion renderSuggestion
                     :inputProps {:placeholder "Type 'c'"
                                  :value @as-val
-                                 :onChange update-state-val} }])
-    ))
+                                 :onChange update-state-val}}])))
 
 
 ;; -------------------------
