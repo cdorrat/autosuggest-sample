@@ -44,13 +44,14 @@
                              (let [new-sugg (getSuggestions (.-value arg))]
                                (reset! suggestions new-sugg)
                                nil))
-        update-state-val (fn [evt new-val method]                           
+        update-state-val (fn [evt new-val method]
                            (reset! as-val (.-newValue new-val))
                            nil)]
     (fn [id]
-      [Autosuggest {:id id                  
+      [Autosuggest {:id id
                     :suggestions @suggestions
-                    :onSuggestionsUpdateRequested update-suggestions
+                    :onSuggestionsFetchRequested update-suggestions
+                    :alwaysRenderSuggestions true
                     :getSuggestionValue getSuggestionValue
                     :renderSuggestion renderSuggestion
                     :inputProps {:placeholder "Type 'c'"

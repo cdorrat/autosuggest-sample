@@ -11,11 +11,10 @@
                  [compojure "1.5.0"]
                  [hiccup "1.0.5"]
                  [environ "1.0.2"]
-                 
                  [org.clojure/clojurescript "1.7.228"
                   :scope "provided"]
                  [reagent "0.6.0-alpha"]
-                 [cljsjs/react-autosuggest "3.5.1-0"]]
+                 [cljsjs/react-autosuggest "9.0.0-0"]]
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.1"]
